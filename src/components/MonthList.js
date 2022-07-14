@@ -1,44 +1,43 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import './style.css'
 import SelectDate from './SelectDate'
 
-class MonthList extends Component {
-  constructor(props){
-    super(props)
-
-    this.state={
-      flag:0,
-      monthid:-1
-    }
-  }
- display2(valu)
- {
-   this.setState({
-     flag:1,
-     monthid:valu
-   })
- }
-  render() {
-    if(this.props.count=="1"){
+const MonthList=(props)=> {
+  const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+  const [selected_month,select_month]=useState("")
+  const [monthid,update_monthid]=useState(-1)
+  const [flag,update_flag]=useState(0)
+  const [dd,setdd]=useState('__')
+  
+    if(props.count!==0){
       return (
-       <div className='wrapper'>   
-       <div className="monthList">
-       <div className='months' onMouseEnter={()=>this.display2(1)}>January</div>
-       <div className='months' onMouseEnter={()=>this.display2(2)}>February</div>
-       <div className='months' onMouseEnter={()=>this.display2(3)}>March</div>
-       <div className='months' onMouseEnter={()=>this.display2(4)}>April</div>
-       <div className='months' onMouseEnter={()=>this.display2(5)}>May</div>
-       <div className='months' onMouseEnter={()=>this.display2(6)}>June</div>
-       <div className='months' onMouseEnter={()=>this.display2(7)}>July</div>
-       <div className='months' onMouseEnter={()=>this.display2(8)}>August</div>
-       <div className='months' onMouseEnter={()=>this.display2(9)}>September</div>
-       <div className='months' onMouseEnter={()=>this.display2(10)}>October</div>
-       <div className='months' onMouseEnter={()=>this.display2(11)}>November</div>
-       <div className='months' onMouseEnter={()=>this.display2(12)}>December</div>
-       {console.log(this.state.monthid)}  
+       <div className='wrapper'>  
+       <div className="monthList">  
+       {
+         months.map((m,index)=>{
+           return(<div
+           className={m===selected_month? "month-selected" : "month"}
+           onMouseEnter={()=>{
+             select_month(m)
+             update_monthid(index+1)
+             update_flag(1)
+             props.setmm(index+1)
+           }}>
+             {m}
+           </div>)
+         })
+       }
+         
        </div>
-       <SelectDate mon={this.state.monthid} year={this.props.year} flag={this.state.flag}></SelectDate>
+       <div className='rest2' onMouseLeave={()=>{
+         select_month("")
+         update_monthid(-1)
+         update_flag(0)
+       }}>
+          <SelectDate month={monthid} year={props.year} flag={flag} setdd={setdd}></SelectDate>
+          {props.setdd(dd)}
        </div>
+      </div>
       )
       }
   else
@@ -47,6 +46,6 @@ class MonthList extends Component {
           <div></div>
       )
   }
-  }}
+  }
 
 export default MonthList

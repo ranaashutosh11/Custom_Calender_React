@@ -1,11 +1,10 @@
 import React from "react";
-import Calender from "./components/calender";
-import "./components/style.css"
+import Modal from "./components/Modal";
 function App() {
   return (
-    <div className="container" >
-        <Calender></Calender>
-  </div>
+    <>
+    <Modal/>
+    </>
   );
 }
 
